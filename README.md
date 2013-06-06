@@ -1,6 +1,6 @@
 gruntling
 =========
 
-bundle install
-npm install
+bundle install  
+npm install  
 grunt watch
