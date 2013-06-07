@@ -1,4 +1,5 @@
 .sass-cache
+images/sprites/*.png
 javascripts/libs/z.scripts.concat.js
 javascripts/min/scripts.min.js
 node_modules
