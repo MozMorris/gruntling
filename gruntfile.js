@@ -1,8 +1,22 @@
 /*global module:false require*/
 module.exports = function(grunt) {
+  'use strict';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    open: {
+      server: {
+        url: 'http://localhost:<%= connect.server.options.port %>'
+      }
+    },
+    connect: {
+      server: {
+        options: {
+          port: 9000
+        }
+      }
+    },
 
     files: {
       grunt: ['gruntfile.js'],
@@ -70,8 +84,29 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: ['<%= files.grunt %>', '<%= files.js %>', '<%= files.sass %>'],
-      tasks: ['default']
+      files: [
+        '<%= files.grunt %>',
+        '<%= files.js %>',
+        '<%= files.sass %>'
+      ],
+      tasks: [
+        'compass',
+        'jshint',
+        'concat:jsapp',
+        'concat:jslibs',
+        'uglify',
+        'concat:jsmin'
+      ],
+      livereload: {
+        options: {
+          livereload: true
+        },
+        files: [
+          'index.html',
+          '<%= files.js %>',
+          'stylesheets/*.css'
+        ],
+      }
     }
   });
 
@@ -82,14 +117,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-smushit');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-open');
 
   grunt.registerTask('default', [
-    'compass',
-    'jshint',
-    'concat:jsapp',
-    'concat:jslibs',
-    'uglify',
-    'concat:jsmin'
+    'connect:server',
+    'open',
+    'watch'
   ]);
 
   grunt.registerTask('minify', ['default', 'smushit']);
