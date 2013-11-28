@@ -1,6 +1,6 @@
 gruntling
 =========
 
-bundle install  
-npm install  
-grunt && grunt watch
+    $ bundle install  
+    $ npm install  
+    $ grunt
